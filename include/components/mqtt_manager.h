@@ -1,5 +1,6 @@
 #include "freertos/FreeRTOS.h"
 #include "mqtt_client.h"
+#include "esp_log.h"
 
 class MQTTManager
 {

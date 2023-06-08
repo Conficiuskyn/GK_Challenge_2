@@ -11,7 +11,7 @@ void Main::run()
     {
         ESP_LOGI(TAG, "Infinite loop");
         wifi.handle_wifi();
-        if (wifi.get_state() == WifiStation::WifiState::CONNECTED & !mqtt_client.isRunning()) {
+        if (wifi.get_state() == WifiStation::WifiState::CONNECTED && !mqtt_client.isRunning()) {
             mqtt_client.start();
         }
         vTaskDelay(pdMS_TO_TICKS(1000));

@@ -13,13 +13,15 @@ void MQTTManager::start()
                 },
             };
     
-    client = esp_mqtt_client_init(&mqtt_config);
-    esp_mqtt_client_register_event(client, (esp_mqtt_event_id_t)ESP_EVENT_ANY_ID, mqtt_event_handler, _client);
+    _client = esp_mqtt_client_init(&mqtt_config);
+    esp_mqtt_client_register_event(_client, (esp_mqtt_event_id_t)ESP_EVENT_ANY_ID, mqtt_event_handler, _client);
     if (esp_mqtt_client_start(_client) == ESP_OK) {
         ESP_LOGI(TAG, "Started");
+        _running = true;
     }
     else {
         ESP_LOGI(TAG, "Starting Failed");
+        _running = false;
     }
 
 }
@@ -36,6 +38,7 @@ void MQTTManager::mqtt_event_handler(
 
     esp_mqtt_event_handle_t event = (esp_mqtt_event_handle_t)event_data;
     esp_mqtt_client_handle_t client = event->client;
+    int msg_id = 0;
 
     switch (event->event_id) 
     {
