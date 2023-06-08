@@ -15,7 +15,17 @@ void MQTTManager::start()
     
     client = esp_mqtt_client_init(&mqtt_config);
     esp_mqtt_client_register_event(client, (esp_mqtt_event_id_t)ESP_EVENT_ANY_ID, mqtt_event_handler, _client);
-    esp_mqtt_client_start(_client);
+    if (esp_mqtt_client_start(_client) == ESP_OK) {
+        ESP_LOGI(TAG, "Started");
+    }
+    else {
+        ESP_LOGI(TAG, "Starting Failed");
+    }
+
+}
+
+bool MQTTManager::isRunning() {
+    return _running;
 }
 
 void MQTTManager::mqtt_event_handler(
