@@ -2,6 +2,8 @@
 
 wifi_init_config_t WifiStation::_wifi_init_cfg = WIFI_INIT_CONFIG_DEFAULT();
 wifi_config_t WifiStation::_wifi_cfg{};
+
+//Initial state is NOT_INITIALIZED
 WifiStation::WifiState WifiStation::_state{WifiStation::WifiState::NOT_INITIALIZED};
 
 void WifiStation::setSSIDandPASSWORD(const char* ssid, const char* password)
