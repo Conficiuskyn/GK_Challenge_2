@@ -59,11 +59,22 @@ void WifiStation::_start() {
 
 //Start a connection, change _state to CONNECTING
 void WifiStation::_connect() {
-    esp_err_t status = ESP_OK;
-    status = esp_wifi_connect();
-    if (status == ESP_OK) {
-        _state = WifiState::CONNECTING;
-    } 
+
+    wifi_ap_record_t ap_info;
+    esp_wifi_sta_get_ap_info(&ap_info);
+
+    if (ap_info.authmode == WIFI_AUTH_WPA2_PSK) {
+        ESP_LOGI(TAG, "Wifi is secured by WPA2, connection attempt will continue...");
+        esp_err_t status = ESP_OK;
+        status = esp_wifi_connect();
+        if (status == ESP_OK) {
+            _state = WifiState::CONNECTING;
+        }
+    }
+    else
+    {
+        ESP_LOGI(TAG, "Wifi is not secured by WPA2, connection aborted");
+    }
 }
 
 //Event handler for wifi events
