@@ -4,16 +4,17 @@
 #define MQTT_TOPIC "/__GK__/hello"
 
 void MQTTManager::start() 
-{
+{    
     esp_mqtt_client_config_t mqtt_config = {
-                .broker = {
-                    .address = {
-                        .uri = MQTT_BROKER_URI,
-                    },
-                },
-            };
+        .broker = {
+            .address = {
+                .uri = MQTT_BROKER_URI,
+            },
+        },
+    };
+
+    esp_mqtt_client_handle_t _client = esp_mqtt_client_init(&mqtt_config);
     
-    _client = esp_mqtt_client_init(&mqtt_config);
     esp_mqtt_client_register_event(_client, (esp_mqtt_event_id_t)ESP_EVENT_ANY_ID, mqtt_event_handler, _client);
     if (esp_mqtt_client_start(_client) == ESP_OK) {
         ESP_LOGI(TAG, "Started");

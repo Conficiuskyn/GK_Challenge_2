@@ -8,10 +8,10 @@ class MQTTManager
         static constexpr const char* TAG = "[mqtt manager]";
         void start();
         bool isRunning();
+        void setBrokerUri(const char* uri);
     
     private:
         bool _running = false;
-        static esp_mqtt_client_handle_t _client;
         static void mqtt_event_handler(
             void *arg,
             esp_event_base_t event_base,
