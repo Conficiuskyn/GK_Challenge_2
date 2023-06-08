@@ -63,6 +63,7 @@ void WifiStation::_connect() {
     wifi_ap_record_t ap_info;
     esp_wifi_sta_get_ap_info(&ap_info);
 
+    //Checking if Wifi is secured by WPA2, otherwise abort
     if (ap_info.authmode == WIFI_AUTH_WPA2_PSK) {
         ESP_LOGI(TAG, "Wifi is secured by WPA2, connection attempt will continue...");
         esp_err_t status = ESP_OK;
