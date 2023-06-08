@@ -14,7 +14,8 @@ void MQTTManager::start()
             };
     
     client = esp_mqtt_client_init(&mqtt_config);
-    esp_mqtt_client_register_event(client, (esp_mqtt_event_id_t)ESP_EVENT_ANY_ID, mqtt_event_handler, client);
+    esp_mqtt_client_register_event(client, (esp_mqtt_event_id_t)ESP_EVENT_ANY_ID, mqtt_event_handler, _client);
+    esp_mqtt_client_start(_client);
 }
 
 void MQTTManager::mqtt_event_handler(
@@ -24,13 +25,13 @@ void MQTTManager::mqtt_event_handler(
             void *event_data) {
 
     esp_mqtt_event_handle_t event = (esp_mqtt_event_handle_t)event_data;
-    esp_mqtt_client_handle_t e_client = event->client;
+    esp_mqtt_client_handle_t client = event->client;
 
     switch (event->event_id) 
     {
         case MQTT_EVENT_CONNECTED:
             ESP_LOGI(TAG, "MQTT_EVENT_CONNECTED");
-            msg_id = esp_mqtt_client_subscribe(e_client, MQTT_TOPIC, 0);
+            msg_id = esp_mqtt_client_subscribe(client, MQTT_TOPIC, 0);
             ESP_LOGI(TAG, "sent subscribe successful, msg_id=%d", msg_id);
             break;
 
