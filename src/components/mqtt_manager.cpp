@@ -3,6 +3,7 @@
 #define MQTT_BROKER_URI "mqtt://broker.hivemq.com"
 #define MQTT_TOPIC "/__GK__/hello"
 
+//Starts the mqtt client and assigning the broker uri.
 void MQTTManager::start() 
 {    
     esp_mqtt_client_config_t mqtt_config = {
@@ -14,7 +15,7 @@ void MQTTManager::start()
     };
 
     esp_mqtt_client_handle_t _client = esp_mqtt_client_init(&mqtt_config);
-    
+
     esp_mqtt_client_register_event(_client, (esp_mqtt_event_id_t)ESP_EVENT_ANY_ID, mqtt_event_handler, _client);
     if (esp_mqtt_client_start(_client) == ESP_OK) {
         ESP_LOGI(TAG, "Started");
@@ -31,6 +32,8 @@ bool MQTTManager::isRunning() {
     return _running;
 }
 
+//Handles mqtt events and incoming data
+//Sends back "pong" when receiving "ping"
 void MQTTManager::mqtt_event_handler(
             void *arg,
             esp_event_base_t event_base,

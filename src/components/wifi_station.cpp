@@ -14,6 +14,8 @@ void WifiStation::start() {
     _start();
 }
 
+//Initialize all the Wifi configuration parameters and authentification security
+//Change the _state to INITIALIZED if succeeded
 void WifiStation::_start() {
 
     if (_state == WifiState::NOT_INITIALIZED) 
@@ -53,6 +55,7 @@ void WifiStation::_start() {
     }
 }   
 
+//Start a connection, change _state to CONNECTING
 void WifiStation::_connect() {
     esp_err_t status = ESP_OK;
     status = esp_wifi_connect();
@@ -61,6 +64,7 @@ void WifiStation::_connect() {
     } 
 }
 
+//Event handler for wifi events
 void WifiStation::wifi_event_handler(
             void *arg,
             esp_event_base_t event_base,
@@ -93,6 +97,7 @@ void WifiStation::wifi_event_handler(
         }    
     }
 
+//Event handler for IP events
 void WifiStation::ip_event_handler(
             void *arg,
             esp_event_base_t event_base,
@@ -122,6 +127,7 @@ void WifiStation::ip_event_handler(
         }    
     }
 
+//Launch a connection if _state is at READY_TO_CONNECT or DISCONNECTED
 void WifiStation::handle_wifi() 
 {
     switch (_state)

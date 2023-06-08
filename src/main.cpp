@@ -1,7 +1,12 @@
 #include "main.h"
 
+//SSID and PASSWORD should be defined in the configuration file and not like that
 #define SSID "roro"
 #define PASSWORD "123456789"
+
+//Main app start assigning wifi credentials and launches main loop
+//The wifi connection is handled itself, automatic reconnection
+//Once wifi is alive, mqtt connection goes on
 
 void Main::run()
 {   
@@ -10,10 +15,10 @@ void Main::run()
     while(true)
     {
         ESP_LOGI(TAG, "Infinite loop");
-        wifi.handle_wifi();
+        wifi.handle_wifi(); // handles all the wifi states
         if (wifi.get_state() == WifiStation::WifiState::CONNECTED && 
             !mqtt_client.isRunning()) {
-            mqtt_client.start();
+            mqtt_client.start(); // start mqtt client
         }
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
